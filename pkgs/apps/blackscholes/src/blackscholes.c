@@ -12,6 +12,7 @@
 #include <math.h>
 #include <string.h>
 #include "riscv_custom.h"
+#include <gem5/m5ops.h>
 
 #ifdef ENABLE_PARSEC_HOOKS
 #include <hooks.h>
@@ -416,11 +417,24 @@ int main (int argc, char **argv)
 
     printf("Size of data: %d\n", numOptions * (sizeof(OptionData) + sizeof(int)));
 
+    
 #ifdef ENABLE_PARSEC_HOOKS
     __parsec_roi_begin();
 #endif
+    /* m5_dump_stats(0,0); */
+    /* m5_reset_stats(0,0); */
+    printf("ENTERING ROI\n");
+    fflush(stdout);
+    /* m5_work_begin(0,0); */
+
     riscv_roi_begin();
 
+    // ROI gem5
+    /* m5_switchpcu(0,0); */
+
+
+
+	
 #ifdef ENABLE_THREADS
 #ifdef WIN32
     HANDLE *threads;
@@ -470,7 +484,17 @@ int main (int argc, char **argv)
 #ifdef ENABLE_PARSEC_HOOKS
     __parsec_roi_end();
 #endif
+
+    // end of ROI gem5
+    printf("EXITING ROI\n");
+    fflush(stdout);
+    //////////
+    
+    /* m5_work_end(0,0); */
+    /* m5_dump_stats(0,0); */
+
     riscv_roi_end();
+    /* m5_dump_stats(0,0); */
 
     //Write prices to output file
     file = fopen(outputFile, "w");

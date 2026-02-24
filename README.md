@@ -7,7 +7,7 @@ The first fork makes it easy to compile for riscv, this second one includes :
    * a script, `parsec_build` to compile the subset of the parsec that are cross-compilable.
      Indeed, some programs are compiled and executed to generate code that is again compiled to produce
      the executable,
-   * a script, `parsec_exec` to execute the programs with the appropriate.
+   * a script, `parsec_exec` to execute the programs with the appropriate.
 
 Note that the original web site at Princeton has been discontinued, so we're left with finding the
 appropriate resources here and there, ...
