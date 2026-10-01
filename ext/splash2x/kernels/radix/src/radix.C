@@ -56,6 +56,7 @@
 #ifdef ENABLE_PARSEC_HOOKS
 #include <hooks.h>
 #endif
+#include <riscv_custom.h>
 MAIN_ENV
 
 struct prefix_node {
@@ -320,11 +321,13 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_roi_begin();
 #endif
+	riscv_roi_begin();
    CREATE(slave_sort, number_of_processors);
    WAIT_FOR_END(number_of_processors);
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_roi_end();
 #endif
+	riscv_roi_end();
 
    printf("\n");
    printf("                 PROCESS STATISTICS\n");
@@ -395,11 +398,11 @@ int main(int argc, char *argv[])
    if (test_result) {
      test_sort(global->final);  
    }
-  
-   MAIN_END;
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_bench_end();
 #endif
+
+   MAIN_END;
 }
 
 void slave_sort()

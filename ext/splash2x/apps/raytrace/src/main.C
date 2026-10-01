@@ -87,6 +87,7 @@
 #ifdef ENABLE_PARSEC_HOOKS
 #include <hooks.h>
 #endif
+#include <riscv_custom.h>
 
 CHAR	*ProgName     = "RAYTRACE";          /* The program name.                 */
 INT	nprocs	      = 1;		/* The number of processors to use.  */
@@ -386,8 +387,13 @@ CHAR	*argv[];
 	 */
 
 	Huniform_defaults();
-	ReadEnvFile(*argv);
-	ReadGeoFile(GeoFileName);
+        char buffer[64];
+        strcpy(buffer, *argv);
+        strcat(buffer, ".env");
+	ReadEnvFile(buffer);
+        strcpy(buffer, *argv);
+        strcat(buffer, ".geo");
+	ReadGeoFile(buffer);
 	OpenFrameBuffer();
 
 
@@ -423,6 +429,7 @@ CHAR	*argv[];
 #ifdef ENABLE_PARSEC_HOOKS
         __parsec_roi_begin();
 #endif
+        riscv_roi_begin();
 
 	CLOCK(begin)
 	//for (i = 0; i < gm->nprocs - 1; i++)
@@ -435,6 +442,7 @@ CHAR	*argv[];
 #ifdef ENABLE_PARSEC_HOOKS
         __parsec_roi_end();
 #endif
+        riscv_roi_end();
 
 
 

@@ -42,6 +42,7 @@
 #ifdef ENABLE_PARSEC_HOOKS
 #include <hooks.h>
 #endif
+#include <riscv_custom.h>
 MAIN_ENV
 
 #define DEFAULT_N      258
@@ -484,11 +485,13 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_roi_begin();
 #endif
+	riscv_roi_begin();
    CREATE(slave, nprocs);
    WAIT_FOR_END(nprocs);
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_roi_end();
 #endif
+	riscv_roi_end();
    CLOCK(computeend)
 
    printf("\n");
@@ -545,11 +548,11 @@ int main(int argc, char *argv[])
    printf("Total time without initialization : %16lu\n", computeend-global->trackstart);
    printf("    (excludes first timestep)\n");
    printf("\n");
-
-   MAIN_END
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_bench_end();
 #endif
+
+   MAIN_END
 }
 
 long log_2(long number)

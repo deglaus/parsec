@@ -35,7 +35,7 @@ function detect_path {
     # Try to autodetect path by looking at path used to invoke this script
 
     # Try to extract absoute or relative path
-    if [ "${1:0:1}" == "/" ]; then
+    if [[ "${1:0:1}" == "/" ]]; then
       # Absolute path given
       eval xxparsecdirxx=$(${xxDIRNAMExx} $(${xxDIRNAMExx} $1))
       # Check
@@ -102,3 +102,17 @@ else
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${PARSECDIR}/pkgs/libs/hooks/inst/${PARSECPLAT}/lib"
 fi
 
+# Necessary to compile facesim, because for some reason it does not inherit it from gcc.bldconf
+export PARSEC_HOME=$(git rev-parse --show-toplevel)
+# Try to export the riscv home in a somehow portable way
+if [ -f /opt/riscv/linux/bin/riscv64-unknown-linux-gnu-gcc ]; then
+   export RISCY_HOME="/opt/riscv/linux/bin/riscv64-unknown-linux-gnu-gcc"
+else
+	riscv64-unknown-linux-gnu-gcc 2> /dev/null
+	if test $? -eq 127; then
+		echo "riscv cross-tools not in path, please add them"
+		return 1
+	fi
+	export RISCY_HOME=$(dirname $(dirname $(command -v riscv64-unknown-linux-gnu-gcc)))
+fi
+return 0

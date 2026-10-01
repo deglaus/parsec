@@ -31,6 +31,8 @@ else
   MT        = 
 endif
 
+CXXFLAGS += -I/fast-scratch/soderstj/gem5/include
+
 
 
 # Default build single precision version
@@ -59,7 +61,7 @@ CXXFLAGS += $(MT) $(NCO) $(FUNC) $(ERR) $(CSRC)
 all: $(TARGET)
 
 $(TARGET): clean $(CSRC)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LIBS) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) /fast-scratch/soderstj/gem5/util/m5/build/riscv/out/libm5.a $(LIBS) -o $(TARGET) 
 
 $(M4_SRC): $(SRC)
 	$(M4) $(M4_BASE)/$(MACROS) $< > $@
