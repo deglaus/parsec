@@ -13,6 +13,11 @@ Note that the original web site at Princeton has been discontinued, so we're lef
 appropriate resources here and there, ...
 
 # README of the original fork
+This repo is a fork of a fork of the parsec benchmark repo.
+The first fork makes it easy to compile for riscv, this second one includes
+pointers to the datasets needed :
+https://github.com/cirosantilli/parsec-benchmark/releases/tag/3.0
+
 This repo is a fork of the original PARSEC 3.0 benchmark suite at
 http://parsec.cs.princeton.edu/parsec3-doc.htm. The major change is to cross
 compile several PARSEC benchmarks to RISC-V.
